@@ -1,5 +1,6 @@
 ---
-title: "About"
+title: "About this site"
+format: html
 ---
 
-About this site
+[Kane's Free Data Science Bootcamp](https://bootcamp.davidkane.info)
