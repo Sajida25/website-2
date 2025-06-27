@@ -1,0 +1,52 @@
+---
+title: "Billboard Graphic"
+author: "Sajida Rehman"
+execute:
+  echo: false
+---
+
+
+```{r}
+library(tidyverse)
+library(tidyr)
+data(billboard)
+```
+
+```{r}
+# Reshape the billboard data to long format
+billboard_long <- billboard |>
+  pivot_longer(
+    cols = starts_with("wk"),
+    names_to = "week",
+    values_to = "rank",
+    values_drop_na = TRUE
+  )
+
+# Convert week to numeric
+billboard_long <- billboard_long |>
+  mutate(week = as.integer(str_remove(week, "wk")))
+
+# Pick a few popular songs to plot
+top_songs <- c("Smooth", "Breathe", "Maria Maria", "I Wanna Know")
+
+# Filter data for those songs
+plot_data <- billboard_long |>
+  filter(track %in% top_songs)
+
+# Make a nice line plot
+ggplot(plot_data, aes(x = week, y = rank, color = track)) +
+  geom_line(linewidth = 1.2) +
+  scale_y_reverse() +  # lower rank (1) is better
+  labs(
+    title = "Billboard Chart Rankings Over Time",
+    subtitle = "For selected popular songs in 2000",
+    x = "Week",
+    y = "Chart Rank",
+    color = "Track"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "bottom")
+```
+
+
+
